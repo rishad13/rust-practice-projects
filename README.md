@@ -36,8 +36,5 @@ cargo run
 ## 🤝 Contributing
 This is my personal learning space, but feel free to fork or suggest improvements!
 
-## 📜 License
-This repository is open-source under the [MIT License](LICENSE).
-
 ---
 Let's build some cool Rust projects! 🚀
