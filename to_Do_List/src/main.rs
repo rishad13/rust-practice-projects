@@ -1,4 +1,5 @@
 mod model;
+mod task;
 use std::io;
 
 fn main() {
@@ -14,12 +15,8 @@ fn main() {
             .expect("Failed to read line");
         let input = input.trim();
         match input {
-            "1" => {
-                println!("add task")
-            }
-            "2" => {
-                println!("View Tasks")
-            }
+            "1" => task::add_task(&mut tasks),
+            "2" => task::list_tasks(&tasks),
             "3" => {
                 println!("Exiting... Goodbye!");
                 break;

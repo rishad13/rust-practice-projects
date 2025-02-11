@@ -1,5 +1,6 @@
+#[allow(dead_code)]
 #[derive(Debug)]
 pub struct Task {
-    id: usize,
-    description: String,
+   pub id: usize,
+   pub description: String,
 }
