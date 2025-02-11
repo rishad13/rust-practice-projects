@@ -46,6 +46,6 @@ fn main() {
     let text = String::from("Hello I'm just learning Rust, I want to learn Rust deeply, But Rust have many concept which I haven't even heard yet, hopefully Rust will make a better developer");
     let delimiter = String::from("Rust");
     let str_spliterator = StrSpliterator::new(&text, &delimiter);
-   // take_ownership_of_text(text); //if enabled this line, won't able to compile, since the text's lifetime have over.
+   // take_ownership_of_text(text); //if enabled this line, won't able to compile, since the text's lifetime has over.
     print_words_in_between_delimiters(str_spliterator);
 }
