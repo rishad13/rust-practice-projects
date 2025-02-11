@@ -1,4 +1,4 @@
-use crate::model::task_model;
+use crate::{model::task_model, storage_json::create_storage_store_data};
 use std::io;
 
 /// Adds a new task to the task list.
@@ -18,6 +18,8 @@ pub fn add_task(task_list: &mut Vec<task_model::Task>) {
     };
 
     task_list.push(task);
+    println!("Task added successfully!");
+    create_storage_store_data(task_list);
 }
 
 /// Lists all tasks in the task list.

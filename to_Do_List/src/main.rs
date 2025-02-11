@@ -1,13 +1,13 @@
 mod model;
+mod storage_json;
 mod task;
 use std::io;
-
 fn main() {
     println!("Welcome to Task Manager");
     println!("1. Add Task");
     println!("2. List Tasks");
     println!("3. Exit");
-    let mut tasks: Vec<model::task_model::Task> = Vec::new();
+    let mut tasks: Vec<model::task_model::Task> = storage_json::get_storage_data();
     loop {
         let mut input = String::new();
         io::stdin()
