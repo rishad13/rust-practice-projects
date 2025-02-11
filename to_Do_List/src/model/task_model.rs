@@ -1,6 +1,5 @@
 #[derive(Debug)]
-struct Task {
+pub struct Task {
     id: usize,
     description: String,
-    completed: bool,
 }
