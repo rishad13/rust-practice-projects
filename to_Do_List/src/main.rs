@@ -18,7 +18,7 @@ fn main() {
             "1" => task::add_task(&mut tasks),
             "2" => task::list_tasks(&tasks),
             "3" => {
-                println!("Exiting... Goodbye!");
+                println!("Exiting... Goodbye!"); 
                 break;
             }
             _ => println!("Invalid choice, please try again."),
