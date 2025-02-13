@@ -1,4 +1,5 @@
 use std::io;
+use super:expense;
 
 fn main() {
     loop {
@@ -10,7 +11,7 @@ fn main() {
             .read_line(&mut input)
             .expect("Failed to read line");
         match input.trim() {
-            "1" => println!("Enter expense (amount category description):"),
+            "1" => addExpense(),
             "2" => println!("View all expenses"),
             "3" => {
                 println!("Bye Bye");
