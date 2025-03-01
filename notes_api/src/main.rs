@@ -4,6 +4,7 @@ use migration::{Migrator, MigratorTrait};
 use sea_orm::{Database, DatabaseConnection};
 use utils::app_state::AppState;
 mod main_error;
+mod routes;
 mod utils;
 
 #[actix_web::main]
@@ -27,7 +28,7 @@ async fn main() -> Result<(), main_error::MainError> {
         App::new()
             .app_data(web::Data::new(AppState { db: db.clone() }))
             .wrap(Logger::default())
-            .service(hello)
+            .configure(routes::note_routes::config)
     })
     .bind((_address, _port))
     .map_err(|_| main_error::MainError {
@@ -38,9 +39,4 @@ async fn main() -> Result<(), main_error::MainError> {
     .map_err(|_| main_error::MainError {
         message: "Server run error".to_string(),
     })
-}
-
-#[actix_web::get("/")]
-async fn hello() -> impl actix_web::Responder {
-    actix_web::HttpResponse::Ok().body("Hello world!")
 }
