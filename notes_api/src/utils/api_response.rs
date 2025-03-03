@@ -5,7 +5,7 @@ use std::fmt::Display;
 #[derive(Debug)]
 pub struct ApiResponse {
     pub status_code: u16,
-    pub body: String,
+    pub body: serde_json::Value,
     pub message: String,
     pub status: bool,
     response_code: StatusCode,
@@ -14,11 +14,11 @@ pub struct ApiResponse {
 struct ResponsesModel {
     status: bool,
     message: String,
-    body: String,
+    body: serde_json::Value,
 }
 
 impl ApiResponse {
-    pub fn new(status_code: u16, body: String, message: String, status: bool) -> Self {
+    pub fn new(status_code: u16, body: serde_json::Value, message: String, status: bool) -> Self {
         ApiResponse {
             status_code,
             body,
@@ -62,7 +62,7 @@ impl ResponseError for ApiResponse {
     }
 
     fn error_response(&self) -> HttpResponse<BoxBody> {
-        let body = BoxBody::new(web::BytesMut::from(self.body.as_bytes()));
+        let body = BoxBody::new(web::BytesMut::from(self.body.as_str().unwrap().as_bytes()));
         HttpResponse::new(self.status_code()).set_body(body)
     }
 }

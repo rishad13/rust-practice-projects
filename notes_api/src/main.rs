@@ -10,12 +10,13 @@ mod utils;
 #[actix_web::main]
 async fn main() -> Result<(), main_error::MainError> {
     println!("Hello, world!");
+    env_logger::init();
+
     let (_address, _port, _db) = (
         utils::constants::address.clone(),
         utils::constants::port.clone(),
         utils::constants::db_url.clone(),
     );
-    env_logger::init();
 
     let db: DatabaseConnection = Database::connect(_db).await.map_err(|_| MainError {
         message: "Database connection error".to_string(),
@@ -27,8 +28,8 @@ async fn main() -> Result<(), main_error::MainError> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(AppState { db: db.clone() }))
-            .wrap(Logger::default())
             .configure(routes::note_routes::config)
+            .wrap(Logger::default())
     })
     .bind((_address, _port))
     .map_err(|_| main_error::MainError {
