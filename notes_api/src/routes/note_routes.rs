@@ -9,6 +9,8 @@ pub fn config(config: &mut web::ServiceConfig) {
         web::scope("/note")
             .service(handlers::note_handler::add_note)
             .service(handlers::note_handler::get_notes)
-            .service(handlers::note_handler::get_all_notes),
+            .service(handlers::note_handler::get_all_notes)
+            .service(handlers::note_handler::update_note)
+            .service(handlers::note_handler::delete_note),
     );
 }

@@ -62,7 +62,12 @@ impl ResponseError for ApiResponse {
     }
 
     fn error_response(&self) -> HttpResponse<BoxBody> {
-        let body = BoxBody::new(web::BytesMut::from(self.body.as_str().unwrap().as_bytes()));
-        HttpResponse::new(self.status_code()).set_body(body)
+        match serde_json::to_string(&self.body) {
+            Ok(body_str) => {
+                let body = BoxBody::new(web::BytesMut::from(body_str.as_bytes()));
+                HttpResponse::new(self.status_code()).set_body(body)
+            }
+            Err(_) => HttpResponse::new(StatusCode::INTERNAL_SERVER_ERROR),
+        }
     }
 }
