@@ -4,6 +4,18 @@ use std::env;
 lazy_static! {
     pub static ref address: String = set_address();
     pub static ref port: u16 = set_port();
+    pub static ref db_url: String = set_db_url();
+}
+
+/// Loads the environment variables and retrieves the value of the "DB_URL" variable.
+/// If the "DB_URL" variable is not set, it defaults to "postgres://postgres:postgres@localhost:5432/notes".
+///
+/// # Returns
+///
+/// A `String` containing the value of the "DB_URL" environment variable or the default value.
+fn set_db_url() -> String {
+    env::var("DATABASE_URL")
+        .unwrap_or("postgres://postgres:1234@localhost:5432/note_api".to_string())
 }
 
 /// Loads the environment variables and retrieves the value of the "ADDRESS" variable.
