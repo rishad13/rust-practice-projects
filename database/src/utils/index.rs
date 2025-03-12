@@ -139,7 +139,6 @@ impl Index {
         indexing_db.write_at(offset, bytes)?;
         Ok(())
     }
-
     pub fn update_with(mut self, collection_db: &mut Database, index_db: &mut Database, content: String) -> Result<Self, Error> {
         if(content.len() as u32 > self.length) {
             self.delete_at(index_db);

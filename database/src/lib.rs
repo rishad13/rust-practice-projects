@@ -49,7 +49,7 @@ mod tests {
         assert_eq!(indexes.len(), 2);
 
         // Verify first index properties
-        let mut first_index: &mut Index = indexes.first_mut().unwrap();
+        let first_index: &mut Index = indexes.first_mut().unwrap();
         assert_eq!(first_index.id, 0);           // First index should have ID 0
         assert_eq!(first_index.offset, 0);       // First index starts at offset 0
         assert_eq!(first_index.length, content.len() as u32);  // Length should match content length
@@ -57,10 +57,10 @@ mod tests {
         let first_content = first_index.get_content(&mut collection_db).unwrap();
         assert_eq!(first_content, content); //read from db with index as same as the input (content)
 
-        let update_content = "Hmm don't Works".to_string();
-        let updated_index = first_index.clone().update_with(&mut collection_db, &mut index_db, update_content).unwrap();
+        let update_content = "update with longer content Works".to_string();
+        let updated_index = first_index.clone().update_with(&mut collection_db, &mut index_db, update_content.clone()).unwrap();
         let first_update_content = updated_index.get_content(&mut collection_db).unwrap();
-        println!("update {} and id {}", first_update_content, updated_index.id);
+        assert_eq!(update_content, first_update_content);
 
         // Verify second index properties
         let second_index = indexes.last().unwrap();
@@ -74,11 +74,11 @@ mod tests {
         assert_eq!(second_content, content2); //read from db with index as same as the input (content)
 
         //check new content with less length save in the free space, since when updated the first index with larger content, that index (id) would be free
-        let mut new_index = Index::new("small".to_string(), &mut collection_db, &mut index_db).unwrap();
+        let new_index = Index::new("small".to_string(), &mut collection_db, &mut index_db).unwrap();
         assert_eq!(new_index.id, 0);
 
         //since updating the previous index as non free, this should save last, id = 3
-        let mut new_index_2 = Index::new("small".to_string(), &mut collection_db, &mut index_db).unwrap();
+        let new_index_2 = Index::new("small".to_string(), &mut collection_db, &mut index_db).unwrap();
         assert_eq!(new_index_2.id, 3);
     }
 }
