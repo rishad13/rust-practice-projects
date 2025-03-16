@@ -3,4 +3,19 @@ name = "task_manager"
 version = "0.1.0"
 edition = "2021"
 
+[workspace]
+members = [".", "entity", "migration"]
+
+[lib]
+name = "task_manager"
+path = "src/main.rs"
+
 [dependencies]
+entity = { path = "entity" }
+migration = { path = "migration" }
+actix-web = "4.10.2"
+lazy_static = "1.5.0"
+serde = { version = "1.0.219", features = ["derive"] }
+serde_json = "1.0.140"
+sea-orm = { version = "1.1.7", features = ["sqlx-postgres", "runtime-tokio-rustls", "macros"] }
+env_logger = "0.11.7"
