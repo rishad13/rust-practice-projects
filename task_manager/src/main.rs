@@ -1,9 +1,14 @@
-use actix_web::{middleware::Logger, web, App, HttpServer};
+use actix_web::{
+    middleware::Logger,
+    web::{self},
+    App, HttpServer,
+};
 use main_error::MainError;
 use migration::{Migrator, MigratorTrait};
 use sea_orm::{Database, DatabaseConnection};
 use utils::app_state::AppState;
 mod main_error;
+mod routes;
 mod utils;
 
 #[actix_web::main]
@@ -28,11 +33,12 @@ async fn main() -> Result<(), MainError> {
     HttpServer::new(move || {
         App::new()
             .app_data(web::Data::new(AppState { db: db.clone() }))
-            //.configure(routes::note_routes::config)
+            .configure(routes::task_manager::config) // Fixed the reference to the config function
             .wrap(Logger::default())
     })
     .bind((_address, _port))
-    .map_err(|_| main_error::MainError {
+    .map_err(|_| MainError {
+        // Removed redundant namespace for MainError
         message: "Server binding error".to_string(),
     })?
     .run()
