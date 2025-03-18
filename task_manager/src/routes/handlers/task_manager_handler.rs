@@ -1,4 +1,5 @@
 use actix_web::{post, web};
+use sea_orm::{ActiveValue::Set, EntityTrait};
 use serde::{Deserialize, Serialize};
 
 use crate::utils::{
@@ -25,8 +26,32 @@ pub async fn add_task(
             "Validation Error".to_string(),
             false,
         ));
-    } else {
-        Ok(())
     }
+    let insert_task = entity::task::ActiveModel {
+        title: Set(data.title.clone()),
+        description: Set(data.description.clone()),
+        status: Set(data.status),
+        ..Default::default()
+    };
+    entity::task::Entity::insert(insert_task)
+        .exec(&app_state.db)
+        .await
+        .map_err(|e| {
+            eprintln!("Failed to insert task: {:?}", e); // Log for debugging
+            api_response::ApiResponse::new(
+                500,
+                serde_json::json!({"error": "Failed to add task"}),
+                "Internal Server Error".to_string(),
+                false,
+            )
+        })?;
+
+    Ok(api_response::ApiResponse::new(
+        200,
+        serde_json::json!({"message": "Task added successfully"}),
+        "Success".to_string(),
+        true,
+    ))
+
     // If validation passes, proceed with further processing (e.g., saving to the database)
 }

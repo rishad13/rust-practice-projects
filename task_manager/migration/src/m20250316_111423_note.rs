@@ -15,7 +15,7 @@ impl MigrationTrait for Migration {
                     .col(pk_auto(Task::Id))
                     .col(string(Task::Title))
                     .col(string(Task::Description))
-                    .col(string(Task::Status))
+                    .col(integer(Task::Status))
                     .to_owned(),
             )
             .await
