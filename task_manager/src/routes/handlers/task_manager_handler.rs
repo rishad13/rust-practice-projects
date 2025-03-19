@@ -52,6 +52,32 @@ pub async fn add_task(
         "Success".to_string(),
         true,
     ))
+}
 
-    // If validation passes, proceed with further processing (e.g., saving to the database)
+#[post("/getTask")]
+pub async fn get_task(app_state: web::Data<AppState>) -> Result<ApiResponse, ApiResponse> {
+    let task = entity::task::Entity::find()
+        .all(&app_state.db)
+        .await
+        .map_err(|e| {
+            eprintln!("Failed to get task: {:?}", e); // Log for debugging
+        })
+        .map(|tasks| {
+            tasks
+                .into_iter()
+                .map(|task| Task {
+                    title: task.title,
+                    description: task.description,
+                    status: task.status,
+                })
+                .collect::<Vec<Task>>()
+        })
+        .unwrap_or_else(|_| vec![]);
+
+    Ok(api_response::ApiResponse::new(
+        200,
+        serde_json::json!(task),
+        "Success".to_string(),
+        true,
+    ))
 }
