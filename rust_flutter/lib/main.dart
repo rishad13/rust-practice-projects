@@ -28,6 +28,8 @@
 // }
 //
 
+import 'dart:developer';
+
 import 'package:flutter/material.dart';
 import 'package:rust_flutter/src/rust/api/simple.dart';
 import 'package:rust_flutter/src/rust/frb_generated.dart';
@@ -42,6 +44,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    log(getDemoPerson());
     return MaterialApp(
       home: Scaffold(
         appBar: AppBar(title: const Text('flutter_rust_bridge quickstart')),

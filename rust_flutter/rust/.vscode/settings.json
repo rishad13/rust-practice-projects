@@ -1,0 +1,6 @@
+{
+  "rust-analyzer.diagnostics.disabled": ["unresolved-import"],
+  "rust-analyzer.procMacro.enable": true,
+  "rust-analyzer.files.excludeDirs": ["target", "src/frb_generated.rs"],
+  "rust-analyzer.files.watcher.exclude": ["**/target", "src/frb_generated.rs"] 
+}
